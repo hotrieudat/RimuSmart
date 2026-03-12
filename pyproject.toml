@@ -8,6 +8,7 @@ authors = [
 dependencies = [
     "fastapi>=0.115.0",
     "injector",
+    "apscheduler",
     "uvicorn[standard]>=0.30.0",
 ]
 requires-python = ">=3.10"

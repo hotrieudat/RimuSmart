@@ -1,7 +1,29 @@
 from fastapi import FastAPI
+from fastapi.concurrency import asynccontextmanager
+from injector import Injector
 import uvicorn
 
-app = FastAPI(title="RimuSmart API")
+from dependency import Dependencies
+from fastapi_injector.request_scope import RequestScopeOptions
+from scheduler.setup import setup_scheduler
+
+
+injector = Injector(Dependencies)
+options = RequestScopeOptions(enable_cleanup=True)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Chạy Scheduler
+    scheduler = setup_scheduler(injector, options=options)
+    
+    yield
+    
+    # Shutdown
+    scheduler.shutdown()
+
+# Thiết lập FastAPI
+app = FastAPI(title="RimuSmart API",
+              lifespan=lifespan)
 
 @app.get("/")
 def read_root():
