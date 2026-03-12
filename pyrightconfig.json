@@ -1,4 +1,11 @@
 {
+  "include": [
+    "src"
+  ],
+  "extraPaths": [
+    "src/backend"
+  ],
+  "typeCheckingMode": "basic",
   "venvPath": ".",
   "venv": ".venv"
 }
