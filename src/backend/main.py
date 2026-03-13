@@ -5,9 +5,9 @@ import uvicorn
 
 from dependency import Dependencies
 from fastapi_injector.request_scope import RequestScopeOptions
+from middleware.exceptions import setup_exception_handlers
 from scheduler.setup import setup_scheduler
 from api.routers import routers as v1_routers
-
 
 injector = Injector(Dependencies)
 options = RequestScopeOptions(enable_cleanup=True)
@@ -28,6 +28,9 @@ app = FastAPI(title="RimuSmart API",
 
 # Add routers
 app.include_router(v1_routers)
+
+# Gọi hàm đăng ký các handler
+setup_exception_handlers(app)
 
 @app.get("/")
 def read_root():
