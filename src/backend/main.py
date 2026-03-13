@@ -6,6 +6,7 @@ import uvicorn
 from dependency import Dependencies
 from fastapi_injector.request_scope import RequestScopeOptions
 from scheduler.setup import setup_scheduler
+from api.routers import routers as v1_routers
 
 
 injector = Injector(Dependencies)
@@ -24,6 +25,9 @@ async def lifespan(app: FastAPI):
 # Thiết lập FastAPI
 app = FastAPI(title="RimuSmart API",
               lifespan=lifespan)
+
+# Add routers
+app.include_router(v1_routers)
 
 @app.get("/")
 def read_root():
